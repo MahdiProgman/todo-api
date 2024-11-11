@@ -9,7 +9,9 @@
     "build": "tsc",
     "dev": "nodemon",
     "format": "prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
