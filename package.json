@@ -1,0 +1,32 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "description": "just a good todo api",
+  "main": "dist/main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "tsc",
+    "dev": "nodemon",
+    "format": "prettier --write .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahdiProgman/todo-api.git"
+  },
+  "keywords": [
+    "todo",
+    "api",
+    "todo-api",
+    "Mahdi",
+    "Progman",
+    "MahdiProgman"
+  ],
+  "author": "Mahdi Progman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MahdiProgman/todo-api/issues"
+  },
+  "homepage": "https://github.com/MahdiProgman/todo-api#readme"
+}
