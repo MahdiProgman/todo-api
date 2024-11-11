@@ -30,5 +30,16 @@
   "bugs": {
     "url": "https://github.com/MahdiProgman/todo-api/issues"
   },
-  "homepage": "https://github.com/MahdiProgman/todo-api#readme"
+  "homepage": "https://github.com/MahdiProgman/todo-api#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.9.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
 }
