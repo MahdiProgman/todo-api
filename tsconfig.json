@@ -9,7 +9,6 @@
     "skipLibCheck": true,
     "strict": true,
     "resolveJsonModule": true,
-    "baseUrl": "./",
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
