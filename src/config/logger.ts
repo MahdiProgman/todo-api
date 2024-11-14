@@ -45,4 +45,8 @@ const loggerMiddleware = PinoHttp({
   logger: logger,
 });
 
-export { logger, errorLogger, loggerMiddleware };
+function logError(message: string){
+  logger.error(message + 'for more details check logs folder');
+}
+
+export { logger, errorLogger, loggerMiddleware, logError };
