@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 import { DB_CONFIG } from "./config";
 import { errorLogger, logError, logger } from "./logger";
-import UserModel from "../app/models/user.model";
 
 export const dataBase : Sequelize = new Sequelize(DB_CONFIG);
 export const connectToDB : ()=> Promise<void> = async ()=> {
