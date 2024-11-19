@@ -9,7 +9,14 @@
     "skipLibCheck": true,
     "strict": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@app/*" : ["app/*"],
+      "@config/*" : ["config/*"],
+      "@db/*" : ["db/*"],
+      "@type/*" : ["types/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "src/tests"]
