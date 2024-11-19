@@ -2,6 +2,9 @@ import { Dialect } from 'sequelize';
 
 export interface ApiConfig {
   PORT: number;
+  HASH_SALT: number;
+  ACCESS_TOKEN_SECRET: string;
+  REFRESH_TOKEN_SECRET: string;
 }
 
 export interface SequelizeConfig {
