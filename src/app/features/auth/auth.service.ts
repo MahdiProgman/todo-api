@@ -1,12 +1,15 @@
 import { Op } from 'sequelize';
 import {
   UserRegistration,
-  LoginUserData
+  LoginUserData,
+  RefreshTokenData,
 } from '@type/data/user';
 import UserModel from '@app/models/user.model';
 import hashData from '@app/helpers/hashData';
 import sanitizeObject from '@app/helpers/sanitize';
 import compareData from '@app/helpers/compareData';
+import jwt from 'jsonwebtoken';
+import { API } from '@config/config';
 
 export const registerService = async (user: UserRegistration) => {
   const userFound = await UserModel.findOne({
@@ -76,6 +79,67 @@ export const loginService = async (user: LoginUserData) => {
       };
     } else {
       throw new Error('email or password is wrong');
+    }
+  } else {
+    throw new Error('user not exists');
+  }
+};
+
+export const accessTokenService = async (refreshToken: string) => {
+  let decodedToken: RefreshTokenData | null;
+
+  try {
+    decodedToken = jwt.verify(
+      refreshToken,
+      API.REFRESH_TOKEN_SECRET,
+    ) as RefreshTokenData;
+  } catch (err) {
+    console.log(err);
+    throw new Error('your refresh token is wrong');
+  }
+
+  const userFound = await UserModel.findOne({
+    where: { id: decodedToken.userId },
+  });
+
+  if (userFound) {
+    if (userFound.refresh_token) {
+      const isRefreshTokenMatch: boolean = await compareData(
+        refreshToken,
+        userFound.refresh_token,
+      );
+      if (
+        decodedToken.version == userFound.refresh_token_version &&
+        isRefreshTokenMatch
+      ) {
+        const accessToken = UserModel.generateAccessToken(userFound.id);
+        const refreshToken = UserModel.generateRefreshToken(
+          userFound.id,
+          userFound.refresh_token_version + 1,
+        );
+
+        userFound.refresh_token = refreshToken;
+        userFound.refresh_token_version++;
+
+        await userFound.save();
+
+        return {
+          ...sanitizeObject(userFound.dataValues, [
+            'id',
+            'password',
+            'refresh_token',
+            'refresh_token_version',
+            'password',
+            'join_date',
+          ]),
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        };
+      } else {
+        throw new Error('your refresh token is invalid');
+      }
+    } else {
+      throw new Error('your refresh token is invalid');
     }
   } else {
     throw new Error('user not exists');
