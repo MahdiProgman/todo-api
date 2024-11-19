@@ -1,10 +1,12 @@
 import { Op } from 'sequelize';
 import {
-  UserRegistration
+  UserRegistration,
+  LoginUserData
 } from '@type/data/user';
 import UserModel from '@app/models/user.model';
 import hashData from '@app/helpers/hashData';
 import sanitizeObject from '@app/helpers/sanitize';
+import compareData from '@app/helpers/compareData';
 
 export const registerService = async (user: UserRegistration) => {
   const userFound = await UserModel.findOne({
@@ -37,5 +39,45 @@ export const registerService = async (user: UserRegistration) => {
       access_token: accessToken,
       refresh_token: refreshToken,
     };
+  }
+};
+
+export const loginService = async (user: LoginUserData) => {
+  const userFound = await UserModel.findOne({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (userFound) {
+    const isPassMatch: boolean = await compareData(
+      user.password,
+      userFound.password,
+    );
+    if (isPassMatch) {
+      const accessToken = UserModel.generateAccessToken(userFound.id);
+      const refreshToken = UserModel.generateRefreshToken(userFound.id, 1);
+
+      userFound.refresh_token = await hashData(refreshToken);
+      userFound.refresh_token_version = 1;
+
+      await userFound.save();
+
+      return {
+        ...sanitizeObject(userFound.dataValues, [
+          'refresh_token_version',
+          'refresh_token',
+          'password',
+          'join_date',
+          'id',
+        ]),
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      };
+    } else {
+      throw new Error('email or password is wrong');
+    }
+  } else {
+    throw new Error('user not exists');
   }
 };
