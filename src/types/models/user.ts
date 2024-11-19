@@ -7,6 +7,8 @@ export interface UserAttributes {
   email: string;
   username: string;
   password: string;
+  refresh_token: string | null;
+  refresh_token_version: number | null;
   join_date: string;
 }
 

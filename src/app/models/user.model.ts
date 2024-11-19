@@ -1,7 +1,6 @@
 import { DataTypes, Model } from "sequelize";
-import { UserAttributes, UserCreationAttributes } from "../../types/models/user";
-import { dataBase } from "../../config/db";
-
+import { UserAttributes, UserCreationAttributes } from "@type/models/user";
+import { dataBase } from "@config/db";
 
 class UserModel extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
     declare id: string;
@@ -10,6 +9,8 @@ class UserModel extends Model<UserAttributes, UserCreationAttributes> implements
     declare email: string;
     declare username: string;
     declare password: string;
+    declare refresh_token : string | null;
+    declare refresh_token_version : number | null;
     declare join_date: string;
 }
 
@@ -39,6 +40,14 @@ UserModel.init(
         password : {
             type : DataTypes.STRING,
             allowNull : false
+        },
+        refresh_token : {
+            type : DataTypes.STRING,
+            defaultValue : null
+        },
+        refresh_token_version : {
+            type : DataTypes.INTEGER,
+            defaultValue : null
         },
         join_date : {
             type : DataTypes.DATE,
