@@ -11,3 +11,8 @@ export const userRegistration = Joi.object({
   username: Joi.string().regex(usernameRegex).required(),
   password: Joi.string().regex(passwordRegex).required(),
 });
+
+export const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().regex(passwordRegex).required()
+});
