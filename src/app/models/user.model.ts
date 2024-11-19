@@ -1,6 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { UserAttributes, UserCreationAttributes } from "@type/models/user";
 import { dataBase } from "@config/db";
+import jwt from 'jsonwebtoken';
+import { API } from "@config/config";
 
 class UserModel extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
     declare id: string;
@@ -12,6 +14,23 @@ class UserModel extends Model<UserAttributes, UserCreationAttributes> implements
     declare refresh_token : string | null;
     declare refresh_token_version : number | null;
     declare join_date: string;
+
+    static generateAccessToken(userId : string){
+        return jwt.sign({
+            userId : userId
+        }, API.ACCESS_TOKEN_SECRET, {
+            expiresIn : '15m'
+        });
+    }
+
+    static generateRefreshToken(userId : string, version : number){
+        return jwt.sign({
+            userId : userId,
+            version : version
+        }, API.REFRESH_TOKEN_SECRET, {
+            expiresIn : '7d'
+        });
+    }
 }
 
 UserModel.init(
