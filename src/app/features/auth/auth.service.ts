@@ -24,8 +24,8 @@ export const registerService = async (user: UserRegistration) => {
 
     const newUser = new UserModel(user);
 
-    const accessToken: string = UserModel.generateAccessToken(newUser.id);
-    const refreshToken: string = UserModel.generateRefreshToken(newUser.id, 1);
+    const refreshToken: string = UserModel.generateAccessToken(newUser.id);
+    const accessToken: string = UserModel.generateRefreshToken(newUser.id, 1);
 
     newUser.refresh_token = await hashData(refreshToken);
     newUser.refresh_token_version = 1;
