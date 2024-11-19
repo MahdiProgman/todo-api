@@ -1,8 +1,8 @@
-import api from './app/api';
+import api from '@app/api';
 import http from 'http';
-import { API } from './config/config';
-import { logger } from './config/logger';
-import { connectToDB } from './config/db';
+import { API } from '@config/config';
+import { logger } from '@config/logger';
+import { connectToDB } from '@config/db';
 
 const server: http.Server = http.createServer(api);
 
